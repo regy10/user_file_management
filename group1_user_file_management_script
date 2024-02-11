@@ -1,0 +1,61 @@
+#!/bin/bash
+#Display the welcome message to the user
+echo "Welcome to File Management System"
+# Function to display menu
+display_menu() {
+    echo "1. List files in the directory"
+    echo "2. Create a new file"
+    echo "3. Delete a file"
+    echo "4. Quit"
+}
+
+# Function to list files in the directory
+list_files() {
+    echo "Files in the directory:"
+    ls -l "$directory"
+}
+
+# Function to create a new file
+create_file() {
+    echo -n "Enter the name of the new file: "
+    read new_file
+    touch "$directory/$new_file"
+    echo "File '$new_file' created successfully."
+}
+
+# Function to delete a file
+delete_file() {
+    echo -n "Enter the name of the file to delete: "
+    read file_to_delete
+    rm -i "$directory/$file_to_delete"
+    echo "File '$file_to_delete' deleted successfully."
+}
+
+# Main script
+
+# Get the directory from the user
+echo -n "Enter the directory path: "
+read directory
+
+# Check if the directory exists
+if [ ! -d "$directory" ]; then
+    echo "Invalid directory. Exiting..."
+    exit 1
+fi
+
+while true; do
+    display_menu
+
+    # Get user choice
+    echo -n "Enter your choice (1-4): "
+    read choice
+
+    case $choice in
+        1) list_files ;;
+        2) create_file ;;
+        3) delete_file ;;
+        4) echo "Exiting..."; exit 0 ;;
+        *) echo "Invalid choice. Please enter a number between 1 and 4." ;;
+    esac
+done
+
